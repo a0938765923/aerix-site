@@ -233,4 +233,155 @@
       if (img.parentElement) img.parentElement.classList.add("img-fallback");
     });
   });
+
+  /* ============================================================
+     MOTION LAYER v2 (all effects skip when reduced motion is on)
+     ============================================================ */
+  var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- scroll progress bar ---- */
+  (function () {
+    var bar = document.createElement("div");
+    bar.className = "scroll-progress";
+    bar.setAttribute("aria-hidden", "true");
+    document.body.appendChild(bar);
+    var raf = false;
+    function update() {
+      raf = false;
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + "%";
+    }
+    window.addEventListener("scroll", function () {
+      if (!raf) { raf = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
+  })();
+
+  /* ---- hero headline word/glyph stagger ---- */
+  (function () {
+    if (REDUCED) return;
+    var h = document.querySelector(".hero h1.display");
+    if (!h) return;
+    var isZh = document.documentElement.getAttribute("lang") === "zh-Hant";
+    var text = h.textContent;
+    var parts = isZh ? Array.prototype.slice.call(text) : text.split(/(\s+)/);
+    var i = 0, out = "";
+    parts.forEach(function (p) {
+      if (/^\s+$/.test(p) || p === "") { out += p; return; }
+      out += '<span class="w" style="--i:' + (i++) + '">' +
+        p.replace(/&/g, "&amp;").replace(/</g, "&lt;") + "</span>";
+    });
+    h.innerHTML = out;
+  })();
+
+  /* ---- card 3D tilt (fine pointers only) ---- */
+  (function () {
+    if (REDUCED || !window.matchMedia("(pointer: fine)").matches) return;
+    document.querySelectorAll(".card").forEach(function (card) {
+      var r = null;
+      card.addEventListener("pointerenter", function () {
+        r = card.getBoundingClientRect();
+        card.style.transition = "transform .12s ease-out, border-color .35s";
+      });
+      card.addEventListener("pointermove", function (e) {
+        if (!r) r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = "translateY(-4px) perspective(900px) rotateX(" +
+          (-py * 4.5).toFixed(2) + "deg) rotateY(" + (px * 5.5).toFixed(2) + "deg)";
+      });
+      card.addEventListener("pointerleave", function () {
+        r = null;
+        card.style.transition = "";
+        card.style.transform = "";
+      });
+    });
+  })();
+
+  /* ---- keep hero video alive across tab/visibility changes ---- */
+  (function () {
+    if (REDUCED) return;
+    var v = document.querySelector(".hero-media video");
+    if (!v) return;
+    function nudge() {
+      if (!document.hidden && v.paused) {
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+      }
+    }
+    document.addEventListener("visibilitychange", nudge);
+    window.addEventListener("pageshow", nudge);
+    new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) nudge();
+    }, { threshold: 0.1 }).observe(v);
+  })();
+
+  /* ---- drone swarm particle field (first hero only) ---- */
+  (function () {
+    if (REDUCED) return;
+    var host = document.querySelector(".hero .hero-media");
+    if (!host) return;
+    var cv = document.createElement("canvas");
+    cv.className = "swarm";
+    host.appendChild(cv);
+    var ctx = cv.getContext("2d");
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    var W = 0, H = 0, pts = [], running = false, inView = true;
+
+    function resize() {
+      W = host.clientWidth; H = host.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      cv.style.width = W + "px"; cv.style.height = H + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function seed() {
+      var n = W < 700 ? 16 : 32;
+      pts = [];
+      for (var i = 0; i < n; i++) {
+        pts.push({
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.3,
+          r: Math.random() * 1.6 + 0.8
+        });
+      }
+    }
+    function step() {
+      if (!running) return;
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i];
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < -10) p.x = W + 10; if (p.x > W + 10) p.x = -10;
+        if (p.y < -10) p.y = H + 10; if (p.y > H + 10) p.y = -10;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, 6.283);
+        ctx.fillStyle = "rgba(111,168,255,.8)";
+        ctx.fill();
+        for (var j = i + 1; j < pts.length; j++) {
+          var q = pts[j], dx = p.x - q.x, dy = p.y - q.y;
+          var d2 = dx * dx + dy * dy;
+          if (d2 < 12100) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = "rgba(89,216,255," + (0.16 * (1 - d2 / 12100)).toFixed(3) + ")";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(step);
+    }
+    function setRunning(on) {
+      var next = on && inView && !document.hidden;
+      if (next && !running) { running = true; requestAnimationFrame(step); }
+      else if (!next) running = false;
+    }
+    resize(); seed(); setRunning(true);
+    window.addEventListener("resize", function () { resize(); seed(); }, { passive: true });
+    document.addEventListener("visibilitychange", function () { setRunning(true); });
+    new IntersectionObserver(function (entries) {
+      inView = entries[0].isIntersecting;
+      setRunning(true);
+    }, { threshold: 0.05 }).observe(host);
+  })();
 })();
