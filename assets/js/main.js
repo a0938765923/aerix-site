@@ -10,34 +10,200 @@
     '<path d="M16 3 29 27H3L16 3Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>' +
     '<circle cx="16" cy="19.5" r="3.2" fill="#3D63FF"/></svg>';
 
+  /* ---------------- mega menu builder (Skydio-anatomy, bilingual) ---------------- */
+  function mega(m) {
+    var h = '<div class="mega2"><div class="mega2-grid">';
+    h += '<div><div class="m-group" data-zh="' + m.group[1] + '">' + m.group[0] + '</div><div class="m-big">';
+    m.big.forEach(function (l) { h += '<a href="' + l[2] + '" data-zh="' + l[1] + '">' + l[0] + '</a>'; });
+    h += '</div></div>';
+    h += '<div><div class="m-group" data-zh="快速連結">Quick links</div><div class="m-small">';
+    m.small.forEach(function (l) { h += '<a href="' + l[2] + '" data-zh="' + l[1] + '">' + l[0] + '</a>'; });
+    h += '</div>';
+    if (m.related && m.related.length) {
+      h += '<div class="m-related" data-zh="相關主題">Related links</div><div class="m-small">';
+      m.related.forEach(function (l) { h += '<a href="' + l[2] + '" data-zh="' + l[1] + '">' + l[0] + '</a>'; });
+      h += '</div>';
+    }
+    h += '</div>';
+    h += '<div class="m-media">' +
+      '<button type="button" class="m-thumb" data-video aria-label="Play video"><img src="assets/img/' + m.img + '" alt=""><span class="play"><i></i></span></button>' +
+      '<div class="m-caption" data-zh="' + m.cap[1] + '">' + m.cap[0] + '</div>' +
+      (m.badge ? '<span class="m-badge">' + m.badge + '</span>' : '') +
+      '</div>';
+    h += '</div></div>';
+    return h;
+  }
+
+  var MENUS = {
+    dfr: {
+      group: ["Drone as First Responder (DFR)", "無人機先遣應變（DFR）"],
+      big: [
+        ["DFR Overview", "DFR 總覽", "dfr.html"],
+        ["How Deployment Works", "三種部署模式", "dfr.html#models"],
+        ["Mission Command", "Mission Command 指揮系統", "software.html#command"],
+        ["Indoor DFR", "室內 DFR（R5）", "r5.html"],
+        ["Campus Safety", "校園安全應用", "dfr.html"],
+        ["Fire Service", "消防救災應用", "dfr.html"]
+      ],
+      small: [
+        ["Integrations", "系統整合生態", "software.html"],
+        ["FAQs & Regulations", "法規與常見問題", "resources.html#guides"],
+        ["Customer Stories", "客戶案例", "resources.html#stories"],
+        ["Resources", "資源中心", "resources.html"]
+      ],
+      related: [
+        ["Corrections Security", "矯正機關安防", "site-security.html"],
+        ["Search & Rescue", "山域海域搜救", "dfr.html"],
+        ["Crash Scene Documentation", "事故現場快速重建", "surveying-mapping.html"]
+      ],
+      img: "sol-dfr.png",
+      cap: ["See how DFR changes response outcomes", "看 DFR 如何改變每一次抵達現場"],
+      badge: "2026 · 1,000+ AGENCIES"
+    },
+    security: {
+      group: ["Site Security", "場域安防"],
+      big: [
+        ["Security Overview", "安防總覽", "site-security.html"],
+        ["Alarm Verification Flow", "警報查證流程", "site-security.html#how"],
+        ["Persistent Dock Patrols", "機巢常駐巡邏", "dock.html"],
+        ["Fleet Ops Remote Guarding", "Fleet Ops 遠端守望", "software.html#remote"]
+      ],
+      small: [
+        ["Data Centers", "資料中心", "site-security.html"],
+        ["Ports & Logistics", "港口物流", "site-security.html"],
+        ["Energy & Utilities", "能源設施", "site-security.html"]
+      ],
+      related: [
+        ["Base Defense", "基地防衛", "national-security.html#missions"],
+        ["Border Awareness", "邊境態勢", "national-security.html"],
+        ["Counter-UAS Trend 2026", "反無人機趨勢 2026", "resources.html#guides"]
+      ],
+      img: "sol-security.png",
+      cap: ["Watch a perimeter patrol itself", "看周界如何自己巡邏"],
+      badge: "C-UAS · $20B MARKET"
+    },
+    inspection: {
+      group: ["Asset Inspection", "設施巡檢"],
+      big: [
+        ["Inspection Overview", "巡檢總覽", "asset-inspection.html"],
+        ["Autonomous 3D Capture", "3D Capture 自主掃描", "software.html#scan"],
+        ["Radiometric Thermal", "輻射熱像診斷", "v10.html#sensors"],
+        ["Dock Remote Inspection", "機巢遠端巡檢", "dock.html"]
+      ],
+      small: [
+        ["Utilities & Grid", "電網電力", "asset-inspection.html"],
+        ["Bridges", "橋梁", "asset-inspection.html"],
+        ["Oil & Gas", "油氣設施", "asset-inspection.html"],
+        ["Telecom Towers", "電信鐵塔", "asset-inspection.html"]
+      ],
+      related: [
+        ["Surveying & Mapping", "測繪與數位孿生", "surveying-mapping.html"],
+        ["V10 Sensor Suite", "V10 感測器組", "v10.html#sensors"]
+      ],
+      img: "sol-inspection.png",
+      cap: ["See a substation scanned hands-free", "看變電站如何免人力掃描"],
+      badge: ""
+    },
+    mapping: {
+      group: ["Surveying & Mapping", "測繪與製圖"],
+      big: [
+        ["Mapping Overview", "測繪總覽", "surveying-mapping.html"],
+        ["Capture Workflow", "作業流程", "surveying-mapping.html#workflow"],
+        ["Real-time 3D Models", "即時三維建模", "software.html#scan"],
+        ["RTK / PPK Precision", "RTK / PPK 精度", "v10.html"]
+      ],
+      small: [
+        ["Construction Progress", "營建進度", "surveying-mapping.html"],
+        ["Land Survey", "土地測量", "surveying-mapping.html"],
+        ["Mining & Aggregates", "礦業砂石", "surveying-mapping.html"],
+        ["Scene Documentation", "現場重建", "surveying-mapping.html"]
+      ],
+      related: [
+        ["Scheduled Dock Missions", "機巢排程任務", "dock.html"],
+        ["Inspection Workflows", "巡檢應用", "asset-inspection.html"]
+      ],
+      img: "sol-mapping.png",
+      cap: ["Watch a site become a model", "看工地變成 3D 模型"],
+      badge: ""
+    },
+    natsec: {
+      group: ["National Security", "國防安全"],
+      big: [
+        ["Defense Overview", "國防總覽", "national-security.html"],
+        ["Mission Sets", "任務類型", "national-security.html#missions"],
+        ["GPS-denied Navigation", "GPS 拒止導航", "national-security.html"],
+        ["Link Shield Comms", "Link Shield 抗干擾通訊", "v10.html"]
+      ],
+      small: [
+        ["Border Awareness", "邊境態勢", "national-security.html"],
+        ["Base & Installation Defense", "基地與設施防衛", "national-security.html#missions"],
+        ["NDAA Supply Chain", "NDAA 供應鏈", "products.html"]
+      ],
+      related: [
+        ["V10D Capabilities", "V10D 能力", "v10.html"],
+        ["Swarm Trend 2026", "蜂群趨勢 2026", "resources.html#guides"],
+        ["Request a Briefing", "申請能力簡報", "contact.html"]
+      ],
+      img: "sol-natsec.png",
+      cap: ["See survivable sUAS in the field", "看高生存性 sUAS 實戰"],
+      badge: "REPLICATOR ERA"
+    },
+    products: {
+      group: ["Products", "產品"],
+      big: [
+        ["All Products", "產品總覽", "products.html"],
+        ["AERIX V10", "AERIX V10 旗艦機", "v10.html"],
+        ["Dock for V10", "Dock 機巢", "dock.html"],
+        ["AERIX R5", "AERIX R5 室內機", "r5.html"],
+        ["AERIX F1 — Soon", "AERIX F1・即將登場", "products.html#f1"]
+      ],
+      small: [
+        ["Mission Command", "Mission Command", "software.html#command"],
+        ["Fleet Ops", "Fleet Ops", "software.html#remote"],
+        ["3D Capture", "3D Capture", "software.html#scan"],
+        ["AERIX Autonomy", "AERIX Autonomy", "software.html#autonomy"]
+      ],
+      related: [
+        ["Security & Trust", "安全與信任", "v10.html"],
+        ["Talk to Sales", "聯絡銷售", "contact.html"]
+      ],
+      img: "hero-products.png",
+      cap: ["Meet the whole fleet in 25 seconds", "25 秒認識整支機隊"],
+      badge: ""
+    },
+    resources: {
+      group: ["Resources", "資源中心"],
+      big: [
+        ["Resource Hub", "資源總覽", "resources.html"],
+        ["Customer Stories", "客戶案例", "resources.html#stories"],
+        ["Guides & Playbooks", "指南與手冊", "resources.html#guides"],
+        ["2026 Industry Radar", "2026 產業雷達報告", "resources.html#guides"]
+      ],
+      small: [
+        ["Academy", "AERIX 學院", "resources.html#guides"],
+        ["Contact", "聯絡我們", "contact.html"]
+      ],
+      related: [],
+      img: "story-1.png",
+      cap: ["Field results, on the record", "第一線成果，白紙黑字"],
+      badge: "2026 RADAR"
+    }
+  };
+
   /* ---------------- header ---------------- */
   var HEADER =
     '<div class="nav-inner">' +
     '<a class="logo" href="index.html">' + LOGO_SVG + 'AERIX</a>' +
     '<button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>' +
     '<ul class="nav-links" id="navLinks">' +
-
-    '<li><a href="dfr.html" data-nav="dfr" data-zh="警消先遣">DFR</a></li>' +
-    '<li><a href="site-security.html" data-nav="site-security" data-zh="場域安防">Site Security</a></li>' +
-    '<li><a href="asset-inspection.html" data-nav="inspection" data-zh="設施巡檢">Inspection</a></li>' +
-    '<li><a href="surveying-mapping.html" data-nav="mapping" data-zh="測繪製圖">Mapping</a></li>' +
-    '<li><a href="national-security.html" data-nav="natsec" data-zh="國防安全">National Security</a></li>' +
-
-    '<li><a href="products.html" data-nav="products" data-zh="產品">Products</a>' +
-    '<div class="mega"><div class="mega-head" data-zh="飛行器與機巢">Aircraft &amp; Docks</div>' +
-    '<a href="v10.html"><b>AERIX V10</b><span data-zh="旗艦自主無人機">Flagship autonomous drone</span></a>' +
-    '<a href="dock.html"><b data-zh="Dock 機巢">Dock for V10</b><span data-zh="任何地點，遠端起降">Remote launch, anywhere</span></a>' +
-    '<a href="r5.html"><b>AERIX R5</b><span data-zh="室內優先微型機">Indoor-first micro drone</span></a>' +
-    '<a href="products.html#f1"><b>AERIX F1</b><span data-zh="長航程・即將登場">Long-range · coming soon</span></a>' +
-    '<div class="mega-head" style="margin-top:14px" data-zh="軟體與平台">Software &amp; Platform</div>' +
-    '<a href="software.html"><b>Mission Command</b><span data-zh="DFR 任務作業系統">DFR operating system</span></a>' +
-    '<a href="software.html#remote"><b>Fleet Ops</b><span data-zh="瀏覽器就能遠端作業">Remote operations, from a browser</span></a>' +
-    '<a href="software.html#scan"><b>3D Capture</b><span data-zh="自主掃描與三維建模">Autonomous scanning &amp; models</span></a>' +
-    '<a href="software.html#autonomy"><b>AERIX Autonomy</b><span data-zh="替你飛行的 AI">The AI that does the flying</span></a>' +
-    '</div></li>' +
-
+    '<li><a href="dfr.html" data-nav="dfr" data-zh="警消先遣">DFR</a>' + mega(MENUS.dfr) + '</li>' +
+    '<li><a href="site-security.html" data-nav="site-security" data-zh="場域安防">Site Security</a>' + mega(MENUS.security) + '</li>' +
+    '<li><a href="asset-inspection.html" data-nav="inspection" data-zh="設施巡檢">Inspection</a>' + mega(MENUS.inspection) + '</li>' +
+    '<li><a href="surveying-mapping.html" data-nav="mapping" data-zh="測繪製圖">Mapping</a>' + mega(MENUS.mapping) + '</li>' +
+    '<li><a href="national-security.html" data-nav="natsec" data-zh="國防安全">National Security</a>' + mega(MENUS.natsec) + '</li>' +
+    '<li><a href="products.html" data-nav="products" data-zh="產品">Products</a>' + mega(MENUS.products) + '</li>' +
     '<li><a href="solutions.html" data-nav="solutions" data-zh="產業應用">Industries</a></li>' +
-    '<li><a href="resources.html" data-nav="resources" data-zh="資源中心">Resources</a></li>' +
+    '<li><a href="resources.html" data-nav="resources" data-zh="資源中心">Resources</a>' + mega(MENUS.resources) + '</li>' +
     '</ul>' +
     '<div class="nav-cta">' +
     '<div class="lang-switch" role="group" aria-label="Language / 語言">' +
@@ -383,5 +549,37 @@
       inView = entries[0].isIntersecting;
       setRunning(true);
     }, { threshold: 0.05 }).observe(host);
+  })();
+
+  /* ---- video lightbox (mega menu media cards) ---- */
+  (function () {
+    var modal = document.createElement("div");
+    modal.className = "vmodal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-label", "Video player");
+    modal.innerHTML =
+      '<button type="button" class="vclose" aria-label="Close video">✕</button>' +
+      '<video controls playsinline preload="none" poster="assets/img/hero-home.png">' +
+      '<source src="assets/video/hero.mp4?v=2" type="video/mp4"></video>';
+    document.body.appendChild(modal);
+    var vid = modal.querySelector("video");
+    function openModal() {
+      modal.classList.add("open");
+      var p = vid.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+    function closeModal() {
+      modal.classList.remove("open");
+      vid.pause();
+    }
+    document.addEventListener("click", function (e) {
+      var t = e.target.closest("[data-video]");
+      if (t) { e.preventDefault(); openModal(); return; }
+      if (e.target === modal || e.target.closest(".vclose")) closeModal();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+    });
   })();
 })();
