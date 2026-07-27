@@ -249,7 +249,7 @@
     '</div>' +
 
     '<div class="footer-bottom">' +
-    '<span data-zh="© 2026 AERIX ROBOTICS · 概念展示網站">© 2026 AERIX ROBOTICS · CONCEPT SITE</span>' +
+    '<span data-zh="© 2026 AERIX ROBOTICS · 概念展示網站 · Mark製作">© 2026 AERIX ROBOTICS · CONCEPT SITE · MADE BY MARK</span>' +
     '<span class="disc" data-zh="本站為受現代自主無人機產業啟發之設計研究。站內所有產品名稱、數據與案例皆為虛構，僅供展示。">Design study inspired by the modern autonomous-drone industry. All product names, figures and stories on this site are fictional and for demonstration only.</span>' +
     '</div></div>';
 
@@ -258,6 +258,13 @@
   if (headerHost) { headerHost.className = "site-header"; headerHost.innerHTML = HEADER; }
   var footerHost = document.getElementById("site-footer");
   if (footerHost) { footerHost.className = "site-footer"; footerHost.innerHTML = FOOTER; }
+
+  /* watermark badge (site-wide) */
+  var wm = document.createElement("div");
+  wm.className = "watermark";
+  wm.setAttribute("aria-hidden", "true");
+  wm.innerHTML = '<i>◢</i><span data-zh="Mark製作">MADE BY MARK</span>';
+  document.body.appendChild(wm);
 
   /* active nav */
   var page = document.body.getAttribute("data-page");

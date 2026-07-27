@@ -217,6 +217,18 @@ h3{font-family:var(--font-d);font-weight:600;letter-spacing:-.01em}
   border:1px solid rgba(89,216,255,.3);border-radius:999px;padding:6px 12px;
 }
 
+/* ---------- watermark ---------- */
+.watermark{
+  position:fixed;right:16px;bottom:14px;z-index:150;pointer-events:none;
+  font-family:var(--font-m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);background:rgba(6,8,12,.55);
+  border:1px solid var(--line);border-radius:999px;padding:7px 13px;
+  backdrop-filter:blur(8px);display:flex;align-items:center;gap:7px;
+}
+.watermark i{font-style:normal;color:var(--accent-hi);font-size:9px}
+@media(max-width:860px){.watermark{right:10px;bottom:10px;padding:6px 10px}}
+@media print{.watermark{display:none}}
+
 /* ---------- video lightbox ---------- */
 .vmodal{
   position:fixed;inset:0;z-index:300;display:none;
