@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/main.css?v=9">
+<link rel="stylesheet" href="assets/css/main.css?v=11">
 </head>
 <body data-page="home" data-title-zh="AERIX — 自主無人機：警消先遣、巡檢與國防安全">
 
@@ -172,6 +172,66 @@
   </div>
 </section>
 
+<!-- ================= DFR MISSION TIMELINE ================= -->
+<section class="section" id="mission-timeline" aria-labelledby="mt-title">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="kicker"><span class="idx">01.5</span> <span data-zh="任務剖析">MISSION ANATOMY</span></span>
+      <h2 class="title" id="mt-title" data-zh="報案到俯瞰現場，只要 120 秒。">From call to eyes-on in 120 seconds.</h2>
+      <p class="lede" data-zh="一通報案電話、一架機巢裡的無人機。沒有飛手趕路、沒有卡在車陣裡的警笛。這就是 AERIX DFR 應變的前兩分鐘——每一秒都算數。">One emergency call. One docked drone. No pilot scrambling, no siren stuck in traffic. This is what the first two minutes of an AERIX DFR response actually look like.</p>
+    </div>
+
+    <div class="mt-console reveal d1">
+      <div class="mt-readout">
+        <span class="mt-readout-lbl" data-zh="任務計時">MISSION CLOCK</span>
+        <span class="mt-clock" data-mt-clock>T+000.0</span>
+        <span class="mt-replay"><span class="mt-replay-dot" aria-hidden="true"></span><span data-zh="任務重演 · 20 倍速">MISSION REPLAY · 20&times;</span></span>
+      </div>
+
+      <ol class="mt-track">
+        <span class="mt-line" aria-hidden="true"><span class="mt-line-fill" data-mt-fill></span></span>
+
+        <li class="mt-stage" data-mt-stage data-t="0">
+          <span class="mt-dot" aria-hidden="true"></span>
+          <span class="mt-t" data-zh="T+0 秒">T+0s</span>
+          <h3 data-zh="報案進線。">Call received.</h3>
+          <p data-zh="報案資料一進系統，AERIX 立即派遣最近的機巢——不需要飛手，不需要層層通報。">A call hits dispatch. AERIX auto-tasks the nearest dock — no pilot required, no phone tree.</p>
+        </li>
+
+        <li class="mt-stage" data-mt-stage data-t="8">
+          <span class="mt-dot" aria-hidden="true"></span>
+          <span class="mt-t" data-zh="T+8 秒">T+8s</span>
+          <h3 data-zh="機巢開啟，即刻升空。">Dock open. Wheels up.</h3>
+          <p data-zh="巢門滑開，V10 數秒內升空——地址還沒唸完，飛前檢查早已完成。">The canopy slides back and V10 is airborne in seconds — pre-flight done before the address finishes reading out.</p>
+        </li>
+
+        <li class="mt-stage" data-mt-stage data-t="45">
+          <span class="mt-dot" aria-hidden="true"></span>
+          <span class="mt-t" data-zh="T+45 秒">T+45s</span>
+          <h3 data-zh="全速前往，全程在目。">En route. Eyes forward.</h3>
+          <p data-zh="時速近百公里自主穿城，BVLOS 視距外飛行。遙測、預計抵達時間與前視影像，一路即時回傳。">BVLOS at 60 mph, threading the city on its own. Telemetry, ETA and a lookahead feed stream to the operator the whole way.</p>
+        </li>
+
+        <li class="mt-stage" data-mt-stage data-t="110">
+          <span class="mt-dot" aria-hidden="true"></span>
+          <span class="mt-t" data-zh="T+110 秒">T+110s</span>
+          <h3 data-zh="空中到位。">Eyes on scene.</h3>
+          <p data-zh="制高點建立。4K 與熱成像即時串流給指揮中心——也送到還在幾個街口外的每一組人員手上。">Overwatch established. 4K and thermal stream live to command — and to every unit still blocks away.</p>
+        </li>
+
+        <li class="mt-stage" data-mt-stage data-t="120">
+          <span class="mt-dot" aria-hidden="true"></span>
+          <span class="mt-t" data-zh="T+120 秒">T+120s</span>
+          <h3 data-zh="決策完成。">Decision made.</h3>
+          <p data-zh="現場態勢、人力配置、風險評估全數就緒——在第一台警車抵達之前。這不只是更快的應變，而是完全不同的應變。">Scene sized up, units staged, risk known — before the first car rolls up. That's not a faster response. It's a different one.</p>
+        </li>
+      </ol>
+    </div>
+
+    <p class="map-note mt-note reveal d2" data-zh="中位數取自機巢型 DFR 計畫 · 2025 實地數據">MEDIAN ACROSS DOCK-BASED DFR PROGRAMS · 2025 FIELD DATA</p>
+  </div>
+</section>
+
 <!-- ================= PRODUCT FAMILY ================= -->
 <section class="section">
   <div class="wrap">
@@ -309,6 +369,6 @@
 </main>
 
 <footer id="site-footer"></footer>
-<script src="assets/js/main.js?v=9"></script>
+<script src="assets/js/main.js?v=11"></script>
 </body>
 </html>
